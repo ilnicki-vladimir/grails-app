@@ -1,4 +1,4 @@
-
+<resource:include components="" />
 <%@ page import="grailstestproject.Client" %>
 <!DOCTYPE html>
 <html>
@@ -7,7 +7,7 @@
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'client.label', default: 'Client')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
-		<resource:include components="map"/>
+		%{--<resource:map type="MicrosoftVirtualEarth"  />key="AIzaSyCRcEVCxp0PYpZHl5K9q2d42PRf3IqL4NY" />--}%
 	</head>
 	<body>
 		<a href="#list-client" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -17,12 +17,13 @@
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
+	<richui:map   zoomLevel="5" markers="${markers}" />
 		<div id="list-client" class="content scaffold-list" role="main">
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">
 				<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<richui:map zoomLevel="5" markers="${markers}"/>
+
 			<table>
 			<thead>
 					<tr>
@@ -56,6 +57,12 @@
 			<div class="pagination">
 				<g:paginate total="${clientInstanceCount ?: 0}" />
 			</div>
+		<g:form action="readerCSV" >
+			<div style="width:220px">
+				<input type="file" name="filename"/>
+				<label>&nbsp;</label><input type="submit" value="import"/>
+			</div>
+		</g:form>
 		</div>
 	</body>
 </html>

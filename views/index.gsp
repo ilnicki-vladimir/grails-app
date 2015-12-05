@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-%{--<%--}%
-   %{--if(session.user){--}%
-	   %{--if(session.user.getRole()=="User"){--}%
-		   %{--response.sendRedirect("client/index");--}%
-	   %{--}--}%
-	   %{--if(session.user.getRole()=="Admin"){--}%
-		   %{--response.sendRedirect("user/index");--}%
-	   %{--}--}%
-   %{--}else{--}%
-	   %{--response.sendRedirect("user/login");--}%
-   %{--}--}%
-%{--%>--}%
+<%
+   if(session.user){
+	   if(session.user.getRole()=="User"){
+		   response.sendRedirect("client/index");
+	   }
+	   if(session.user.getRole()=="Admin"){
+		   response.sendRedirect("user/index");
+	   }
+   }else{
+	   response.sendRedirect("user/login");
+   }
+%>
 <html>
 	<head>
 		<meta name="layout" content="main"/>

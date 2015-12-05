@@ -10,6 +10,15 @@ class ClientController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def geocoderService
+
+    def readerCSV ={
+        def out=new File(params.filename)
+        if(out.exists()){
+            out.eachCsvLine { tokens ->
+                new Client(email:tokens[0],street:tokens[1],name:tokens[2],zip:tokens[3]).save()
+            }
+        }
+    }
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond Client.list(params), model: [clientInstanceCount: Client.count()]
@@ -38,7 +47,7 @@ class ClientController {
 
     @Transactional
     def save(Client clientInstance) {
-        if(clientInstance.latitude ==0 || clientInstance.longitude == 0){
+        if(clientInstance.latitude == 0 || clientInstance.longitude == 0){
             geocoderService.fillInLatLong(clientInstance)
         }
         if (clientInstance == null) {
